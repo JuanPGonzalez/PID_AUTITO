@@ -18,6 +18,7 @@ const int sensorIzquierda = 0;
 const float Kp = 50;
 const float Ki = 0;
 const float Kd = 30;
+
 // Variables del PID
 float P = 0, I= 0, D = 0, PID = 0;
 float error = 0, errorAnterior = 0;
@@ -36,14 +37,14 @@ void setup()
   pinMode(sensorCentro, INPUT);
   pinMode(sensorDerecha, INPUT);
   pinMode(sensorIzquierda, INPUT);
-} // Fin del setup
+} 
 
 void loop()
 {
   int valorDerecha;
   int valorCentro;
   int valorIzquierda;
-  // Lectura de los sensores
+  
   valorDerecha = digitalRead(sensorDerecha);
   valorCentro = digitalRead(sensorCentro);
   valorIzquierda = digitalRead(sensorIzquierda);
@@ -67,9 +68,6 @@ void loop()
   int velocidadIzquierda = VELOCIDAD_BASE + PID;
   int velocidadDerecha = VELOCIDAD_BASE - PID;
 
-  //constrain(velocidadIzquierda, 0, VELOCIDAD_MAXIMA);
-  //constrain(velocidadDerecha, 0, VELOCIDAD_MAXIMA);
-
   if (velocidadIzquierda > 255) velocidadIzquierda = VELOCIDAD_MAXIMA;
   else if (velocidadIzquierda < 0) velocidadIzquierda = 0;
   if (velocidadDerecha > 255) velocidadDerecha = VELOCIDAD_MAXIMA;
@@ -77,7 +75,7 @@ void loop()
 
   GirarMotoresAdelante(velocidadIzquierda, velocidadDerecha);
 
-} // Fin del loop
+} 
 
 void GirarMotoresAdelante(int velIzda, int velDcha)
 {
@@ -89,7 +87,7 @@ void GirarMotoresAdelante(int velIzda, int velDcha)
   digitalWrite (IN3, LOW);
   digitalWrite (IN4, HIGH);
   analogWrite (ENB, velDcha); // Velocidad motor B
-} // Fin de GirarMotoresAdelante()
+} 
 
 void Parar()
 {
@@ -101,4 +99,4 @@ void Parar()
   digitalWrite (IN3, LOW);
   digitalWrite (IN4, LOW);
   analogWrite (ENB, 0); // Velocidad motor A
-} // Fin de Parar()
+} 
