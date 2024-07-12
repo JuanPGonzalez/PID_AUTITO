@@ -15,9 +15,9 @@ const int sensorCentro = A1;
 const int sensorIzquierda = A0;
 
 // Variables de ajuste del PID
-const float Kp = 10;
+const float Kp = 15;
 const float Ki = 0;
-const float Kd = 0;
+const float Kd = 7;
 
 // Variables del PID
 float P = 0, I= 0, D = 0, PID = 0;
@@ -62,7 +62,7 @@ void loop()
   else if (valorIzquierda == HIGH && valorCentro == LOW && valorDerecha == LOW) error = -2, bandera = 1; 
   else if (valorIzquierda == HIGH && valorCentro == LOW && valorDerecha == HIGH) bandera = 4; 
   else if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == LOW) error = -1, bandera = 1; 
-  else if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == HIGH) bandera = 4; 
+  else if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == HIGH) bandera = 2; 
 
 
     /*
@@ -97,9 +97,23 @@ void loop()
       case 2: GirarMotoresAdelante(velocidadIzquierda, velocidadDerecha); break;
       case 3: GirarMotoresDerecha(velocidadIzquierda, velocidadDerecha); break;
       case 4: Parar(); break;
+      //else if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == HIGH) bandera = 5;
   }
 
 } 
+
+/*void GirarMotoresAdelanteRetardado(int velIzda, int velDcha)
+{
+  delay(1000);
+  // Direccion motor A (Izquierdo)
+  digitalWrite (IN1, HIGH);
+  digitalWrite (IN2, LOW);
+  analogWrite (ENA, velIzda); // Velocidad motor A
+  // Direccion motor B (Derecho)
+  digitalWrite (IN3, LOW);
+  digitalWrite (IN4, HIGH);
+  analogWrite (ENB, velDcha); // Velocidad motor B
+}*/
 
 void GirarMotoresDerecha(int velIzda, int velDcha){
    // Direccion motor A (Izquierdo)
