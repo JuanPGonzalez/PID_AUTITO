@@ -1,5 +1,5 @@
 #define VELOCIDAD_MAXIMA 255
-#define VELOCIDAD_BASE 100
+#define VELOCIDAD_BASE 150
 
 // Motor A --> IZQUIERDO
 const int ENA = 11;
@@ -15,7 +15,7 @@ const int sensorCentro = A1;
 const int sensorIzquierda = A0;
 
 // Variables de ajuste del PID
-const float Kp = 20;
+const float Kp = 10;
 const float Ki = 0;
 const float Kd = 0;
 
@@ -55,12 +55,26 @@ void loop()
   //HIGH = Negro 
   //LOW = No Negro
 
-  if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == LOW) error = 2, bandera = 1;       // Robot necesita ir a la izda
-  else if (valorIzquierda == HIGH && valorCentro == LOW && valorDerecha == LOW) error = 1, bandera = 1;   // Robot necesita ir a la izda
-  else if (valorIzquierda == HIGH && valorCentro == LOW && valorDerecha == HIGH) error = 0, bandera = 2;  // Robot centrado
-  else if (valorIzquierda == LOW && valorCentro == LOW && valorDerecha == HIGH) error = -1, bandera = 3;  // Robot necesita ir a la dcha
-  else if (valorIzquierda == LOW && valorCentro == HIGH && valorDerecha == HIGH) error = -2, bandera = 3; // Robot necesita ir a la dcha
-  //else if(valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == HIGH) Parar();   
+  if (valorIzquierda == LOW && valorCentro == LOW && valorDerecha == LOW) bandera = 4;
+  else if (valorIzquierda == LOW && valorCentro == LOW && valorDerecha == HIGH) error = 2, bandera = 3;
+  else if (valorIzquierda == LOW && valorCentro == HIGH && valorDerecha == LOW) error = 0, bandera = 2;
+  else if (valorIzquierda == LOW && valorCentro == HIGH && valorDerecha == HIGH) error = 1, bandera = 3; 
+  else if (valorIzquierda == HIGH && valorCentro == LOW && valorDerecha == LOW) error = -2, bandera = 1; 
+  else if (valorIzquierda == HIGH && valorCentro == LOW && valorDerecha == HIGH) bandera = 4; 
+  else if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == LOW) error = -1, bandera = 1; 
+  else if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == HIGH) bandera = 4; 
+
+
+    /*
+    000 - Parado 
+    001 - Me refui a la der
+    010 - Va para adelante
+    011 - Me estoy yendo a la der
+    100 - Me re fui a la iz
+    101 - Dos lineas que raro
+    110 - Me estoy yendo a la iz
+    111 - Todo negro
+    */
 
   // Calculo del PID
   P = error;
@@ -82,6 +96,7 @@ void loop()
       case 1: GirarMotoresIzquierda(velocidadIzquierda, velocidadDerecha); break;
       case 2: GirarMotoresAdelante(velocidadIzquierda, velocidadDerecha); break;
       case 3: GirarMotoresDerecha(velocidadIzquierda, velocidadDerecha); break;
+      case 4: Parar(); break;
   }
 
 } 
@@ -131,3 +146,4 @@ void Parar()
   digitalWrite (IN4, LOW);
   analogWrite (ENB, 0); // Velocidad motor A
 } 
+
