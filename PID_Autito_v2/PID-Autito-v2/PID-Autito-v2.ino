@@ -64,7 +64,6 @@ void loop()
   else if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == LOW) error = -1, bandera = 1; 
   else if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == HIGH) bandera = 2; 
 
-
     /*
     000 - Parado 
     001 - Me refui a la der
