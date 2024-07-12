@@ -1,6 +1,7 @@
 #define VELOCIDAD_MAXIMA 255
 #define VELOCIDAD_BASE 150
 
+
 // Motor A --> IZQUIERDO
 const int ENA = 11;
 const int IN1 = 5;
@@ -15,7 +16,7 @@ const int sensorCentro = A1;
 const int sensorIzquierda = A0;
 
 // Variables de ajuste del PID
-const float Kp = 15;
+const float Kp = 10;
 const float Ki = 0;
 const float Kd = 7;
 
@@ -66,12 +67,12 @@ void loop()
 
     /*
     000 - Parado 
-    001 - Me refui a la der
+    001 - Me refui a la derecha
     010 - Va para adelante
-    011 - Me estoy yendo a la der
-    100 - Me re fui a la iz
-    101 - Dos lineas que raro
-    110 - Me estoy yendo a la iz
+    011 - Me estoy yendo a la derecha
+    100 - Me re fui a la izquierda
+    101 - Situacion rara
+    110 - Me estoy yendo a la izquierda
     111 - Todo negro
     */
 
