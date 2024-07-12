@@ -1,5 +1,5 @@
 #define VELOCIDAD_MAXIMA 255
-#define VELOCIDAD_BASE 50
+#define VELOCIDAD_BASE 100
 
 // Motor A --> IZQUIERDO
 const int ENA = 11;
@@ -22,6 +22,9 @@ const float Kd = 0;
 // Variables del PID
 float P = 0, I= 0, D = 0, PID = 0;
 float error = 0, errorAnterior = 0;
+
+//Variable Bandera
+int bandera = 0;
 
 void setup()
 {
@@ -52,12 +55,12 @@ void loop()
   //HIGH = Negro 
   //LOW = No Negro
 
-  if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == LOW) error = 2;         // Robot a la izda
-  else if (valorIzquierda == HIGH && valorCentro == LOW && valorDerecha == LOW) error = 1;   // Robot a la izda
-  else if (valorIzquierda == HIGH && valorCentro == LOW && valorDerecha == HIGH) error = 0;    // Robot centrado
-  else if (valorIzquierda == LOW && valorCentro == LOW && valorDerecha == HIGH) error = -1;  // Robot a la dcha
-  else if (valorIzquierda == LOW && valorCentro == HIGH && valorDerecha == HIGH) error = -2; // Robot a la dcha
-  //else if(valorIzquierda == LOW && valorCentro == LOW && valorDerecha == LOW) Parar();   
+  if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == LOW) error = 2, bandera = 1;       // Robot necesita ir a la izda
+  else if (valorIzquierda == HIGH && valorCentro == LOW && valorDerecha == LOW) error = 1, bandera = 1;   // Robot necesita ir a la izda
+  else if (valorIzquierda == HIGH && valorCentro == LOW && valorDerecha == HIGH) error = 0, bandera = 2;  // Robot centrado
+  else if (valorIzquierda == LOW && valorCentro == LOW && valorDerecha == HIGH) error = -1, bandera = 3;  // Robot necesita ir a la dcha
+  else if (valorIzquierda == LOW && valorCentro == HIGH && valorDerecha == HIGH) error = -2, bandera = 3; // Robot necesita ir a la dcha
+  //else if(valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == HIGH) Parar();   
 
   // Calculo del PID
   P = error;
@@ -75,9 +78,35 @@ void loop()
  velocidadIzquierda = constrain(velocidadIzquierda, 0, VELOCIDAD_MAXIMA);
  velocidadDerecha = constrain(velocidadDerecha, 0, VELOCIDAD_MAXIMA);
 
-  GirarMotoresAdelante(velocidadIzquierda, velocidadDerecha);
+  switch (bandera){
+      case 1: GirarMotoresIzquierda(velocidadIzquierda, velocidadDerecha); break;
+      case 2: GirarMotoresAdelante(velocidadIzquierda, velocidadDerecha); break;
+      case 3: GirarMotoresDerecha(velocidadIzquierda, velocidadDerecha); break;
+  }
 
 } 
+
+void GirarMotoresDerecha(int velIzda, int velDcha){
+   // Direccion motor A (Izquierdo)
+  digitalWrite (IN1, HIGH);
+  digitalWrite (IN2, LOW);
+  analogWrite (ENA, velIzda); // Velocidad motor A
+  // Direccion motor B (Derecho)
+  digitalWrite (IN3, HIGH);
+  digitalWrite (IN4, LOW);
+  analogWrite (ENB, velDcha); // Velocidad motor B
+}
+
+void GirarMotoresIzquierda(int velIzda, int velDcha){
+   // Direccion motor A (Izquierdo)
+  digitalWrite (IN1, LOW);
+  digitalWrite (IN2, HIGH);
+  analogWrite (ENA, velIzda); // Velocidad motor A
+  // Direccion motor B (Derecho)
+  digitalWrite (IN3, LOW);
+  digitalWrite (IN4, HIGH);
+  analogWrite (ENB, velDcha); // Velocidad motor B
+}
 
 void GirarMotoresAdelante(int velIzda, int velDcha)
 {
