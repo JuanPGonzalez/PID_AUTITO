@@ -1,7 +1,6 @@
 #define VELOCIDAD_MAXIMA 255
 #define VELOCIDAD_BASE 150
 
-
 // Motor A --> IZQUIERDO
 const int ENA = 11;
 const int IN1 = 5;
