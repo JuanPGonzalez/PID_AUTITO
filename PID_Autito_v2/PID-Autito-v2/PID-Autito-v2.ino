@@ -55,7 +55,7 @@ void loop()
   //HIGH = Negro 
   //LOW = No Negro
 
-  if (valorIzquierda == LOW && valorCentro == LOW && valorDerecha == LOW) bandera = 4;
+  if (valorIzquierda == LOW && valorCentro == LOW && valorDerecha == LOW) bandera = 5;
   else if (valorIzquierda == LOW && valorCentro == LOW && valorDerecha == HIGH) error = 2, bandera = 3;
   else if (valorIzquierda == LOW && valorCentro == HIGH && valorDerecha == LOW) error = 0, bandera = 2;
   else if (valorIzquierda == LOW && valorCentro == HIGH && valorDerecha == HIGH) error = 1, bandera = 3; 
@@ -96,23 +96,13 @@ void loop()
       case 2: GirarMotoresAdelante(velocidadIzquierda, velocidadDerecha); break;
       case 3: GirarMotoresDerecha(velocidadIzquierda, velocidadDerecha); break;
       case 4: Parar(); break;
-      //else if (valorIzquierda == HIGH && valorCentro == HIGH && valorDerecha == HIGH) bandera = 5;
+      case 5: MarchaAtras(velocidadIzquierda, velocidadDerecha); break;
+      
   }
 
 } 
 
-/*void GirarMotoresAdelanteRetardado(int velIzda, int velDcha)
-{
-  delay(1000);
-  // Direccion motor A (Izquierdo)
-  digitalWrite (IN1, HIGH);
-  digitalWrite (IN2, LOW);
-  analogWrite (ENA, velIzda); // Velocidad motor A
-  // Direccion motor B (Derecho)
-  digitalWrite (IN3, LOW);
-  digitalWrite (IN4, HIGH);
-  analogWrite (ENB, velDcha); // Velocidad motor B
-}*/
+
 
 void GirarMotoresDerecha(int velIzda, int velDcha){
    // Direccion motor A (Izquierdo)
@@ -160,3 +150,14 @@ void Parar()
   analogWrite (ENB, 0); // Velocidad motor A
 } 
 
+void MarchaAtras(int velIzda, int velDcha)
+{
+  // Direccion motor A (Izquierdo)
+  digitalWrite (IN1, LOW);
+  digitalWrite (IN2, HIGH);
+  analogWrite (ENA, velIzda); // Velocidad motor A
+  // Direccion motor B (Derecho)
+  digitalWrite (IN3, HIGH);
+  digitalWrite (IN4, LOW);
+  analogWrite (ENB, velDcha); // Velocidad motor B
+} 
